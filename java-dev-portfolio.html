@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vamshi Velagapuri - Senior Java Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #0a0e27;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80') center/cover;
+            color: white;
+            padding: 8rem 2rem 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 39, 0.3);
+            z-index: 0;
+        }
+        
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-container {
+            display: none;
+        }
+
+        header h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease 0.2s backwards;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        header .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.98;
+            animation: fadeInDown 1s ease 0.4s backwards;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            font-weight: 400;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            animation: fadeInDown 1s ease 0.6s backwards;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.25);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.98);
+            margin: 2.5rem 0;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .about-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.15), transparent);
+            transition: left 0.6s;
+        }
+
+        .skill-category:hover::before {
+            left: 100%;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.25);
+            border-left-width: 8px;
+        }
+
+        .skill-category h3 {
+            color: #764ba2;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            padding: 0.5rem 0;
+            color: #555;
+            transition: all 0.3s;
+            font-size: 1.05rem;
+        }
+
+        .skill-category li:hover {
+            color: #667eea;
+            transform: translateX(12px);
+        }
+
+        .skill-category li:before {
+            content: "▸ ";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .experience-item {
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 15px;
+            border-left: 5px solid #764ba2;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            transition: width 0.4s;
+        }
+
+        .experience-item:hover::before {
+            width: 100%;
+            opacity: 0.05;
+        }
+
+        .experience-item:hover {
+            transform: translateX(15px);
+            box-shadow: 0 10px 35px rgba(118, 75, 162, 0.25);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-title {
+            flex: 1;
+        }
+
+        .role {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .company {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .period {
+            color: #888;
+            font-style: italic;
+            font-size: 1.05rem;
+            white-space: nowrap;
+        }
+
+        .experience-item ul {
+            margin-top: 1rem;
+            margin-left: 1.5rem;
+        }
+
+        .experience-item ul li {
+            margin-bottom: 0.7rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .tech-stack {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .tech-stack strong {
+            color: #764ba2;
+            font-size: 1.05rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .tech-tag:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.8rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.25);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .contact-item:hover strong,
+        .contact-item:hover a {
+            color: white !important;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item strong {
+            color: #667eea;
+            transition: color 0.3s;
+            display: block;
+            margin-bottom: 0.2rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-item a {
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+            word-break: break-all;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .education-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .education-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.25);
+        }
+
+        .education-item h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-item .degree {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-item .school {
+            color: #555;
+            font-size: 1.05rem;
+        }
+
+        footer {
+            background: rgba(51, 51, 51, 0.98);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header-stats {
+                gap: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <script>
+        for(let i = 0; i < 30; i++) {
+            let particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <header>
+        <h1>Vamshi Velagapuri</h1>
+        <p class="subtitle">Senior Full Stack Java Developer</p>
+        <div class="header-stats">
+            <div class="stat-item">
+                <span class="stat-number">7+</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">4</span>
+                <span class="stat-label">Major Projects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">Technologies</span>
+            </div>
+        </div>
+    </header>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Senior Full Stack Java Developer with over 7 years of professional experience specializing in Java/J2EE, Spring Boot, and Microservices architecture. Proven expertise in building scalable, resilient enterprise systems across Banking, Retail, and Healthcare industries.</p>
+                    <p>Passionate about clean code, architectural best practices, and delivering high-performance solutions. Strong background in cloud-native development, containerization, and CI/CD automation. Recognized for technical leadership, mentorship, and driving measurable improvements in system performance and reliability.</p>
+                    <p><strong>📍 Location:</strong> Iselin, New Jersey | <strong>🎓 Education:</strong> Master's in Computer Science | <strong>💼 Current Role:</strong> Senior Developer at BMO Harris Bank</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>☕ Core Java & Frameworks</h3>
+                    <ul>
+                        <li>Java 8/11/17/21</li>
+                        <li>Spring Boot & Spring MVC</li>
+                        <li>Spring Data JPA & Security</li>
+                        <li>Hibernate ORM</li>
+                        <li>Maven & Gradle</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>⚛️ Frontend Technologies</h3>
+                    <ul>
+                        <li>ReactJS & Redux</li>
+                        <li>Angular</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>HTML5 & CSS3</li>
+                        <li>Bootstrap & AJAX</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>🗄️ Databases</h3>
+                    <ul>
+                        <li>Oracle & PostgreSQL</li>
+                        <li>MySQL</li>
+                        <li>MongoDB</li>
+                        <li>Cassandra</li>
+                        <li>Redis Caching</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>📡 Messaging & APIs</h3>
+                    <ul>
+                        <li>Apache Kafka</li>
+                        <li>RabbitMQ & ActiveMQ</li>
+                        <li>RESTful APIs</li>
+                        <li>GraphQL</li>
+                        <li>SOAP Services</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>☁️ Cloud & DevOps</h3>
+                    <ul>
+                        <li>AWS (EC2, S3, ECS, RDS)</li>
+                        <li>Azure & GCP</li>
+                        <li>Docker & Kubernetes</li>
+                        <li>Jenkins & GitLab CI</li>
+                        <li>AWS CodePipeline</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>🧪 Testing & Monitoring</h3>
+                    <ul>
+                        <li>JUnit & Mockito</li>
+                        <li>Test-Driven Development</li>
+                        <li>SonarQube</li>
+                        <li>Log4j & SLF4J</li>
+                        <li>Splunk & CloudWatch</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <div class="role">Senior Full Stack Developer</div>
+                        <div class="company">BMO Harris Bank - Chicago, IL</div>
+                    </div>
+                    <div class="period">November 2023 - Present</div>
+                </div>
+                <p><strong>Project:</strong> Banking transaction management platform handling secure fund transfers, loan processing, and real-time payment settlements.</p>
+                <ul>
+                    <li>Developed modular Spring Boot microservices improving backend throughput by 30% through optimized caching and data serialization</li>
+                    <li>Built responsive ReactJS components for payment dashboards ensuring cross-browser compatibility for financial users</li>
+                    <li>Integrated Apache Kafka for transaction streaming and fraud detection, reducing message latency to under 200ms</li>
+                    <li>Implemented Spring Security and OAuth2 for multi-factor authentication meeting PCI-DSS compliance</li>
+                    <li>Automated deployment pipelines with Jenkins and GitHub Actions, cutting release cycle time by 40%</li>
+                    <li>Applied TDD principles using JUnit and Mockito, increasing code coverage from 75% to 93%</li>
+                    <li>Deployed microservices on AWS ECS with optimized auto-scaling for peak transaction loads</li>
+                    <li>Mentored junior developers in microservice design and TDD practices, reducing defect density</li>
+                </ul>
+                <div class="tech-stack">
+                    <strong>Technologies:</strong>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Java 8/11</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">ReactJS</span>
+                        <span class="tech-tag">Kafka</span>
+                        <span class="tech-tag">Oracle DB</span>
+                        <span class="tech-tag">AWS ECS</span>
+                        <span class="tech-tag">Jenkins</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">JUnit</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <div class="role">Full Stack Developer</div>
+                        <div class="company">The Home Depot - Atlanta, GA</div>
+                    </div>
+                    <div class="period">September 2021 - October 2023</div>
+                </div>
+                <p><strong>Project:</strong> Retail analytics and inventory management system with real-time stock tracking and predictive sales analytics.</p>
+                <ul>
+                    <li>Designed Spring Boot microservices for catalog updates and inventory synchronization with 99.9% uptime</li>
+                    <li>Developed ReactJS dashboards for real-time inventory trends using Redux for state management</li>
+                    <li>Built scalable REST APIs improving data accuracy between retail stores and suppliers by 35%</li>
+                    <li>Integrated Apache Kafka for high-frequency sales events enabling real-time restocking recommendations</li>
+                    <li>Optimized PostgreSQL queries and indexing, achieving 25% improvement in response time</li>
+                    <li>Deployed containerized microservices using Docker and Kubernetes for horizontal scaling</li>
+                    <li>Implemented CI/CD pipelines in Jenkins and GitLab automating deployments across environments</li>
+                    <li>Collaborated with data science teams embedding AI-based forecasting, improving accuracy by 20%</li>
+                </ul>
+                <div class="tech-stack">
+                    <strong>Technologies:</strong>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Java 8</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">ReactJS</span>
+                        <span class="tech-tag">Kafka</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Jenkins</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <div class="role">Software Developer</div>
+                        <div class="company">Arcadia Health Care Solutions - Boston, MA</div>
+                    </div>
+                    <div class="period">January 2020 - August 2021</div>
+                </div>
+                <p><strong>Project:</strong> Telemedicine and healthcare analytics platform with EHR integration and HIPAA-compliant patient data sharing.</p>
+                <ul>
+                    <li>Designed Spring Boot microservices for patient enrollment, appointment scheduling, and prescription management</li>
+                    <li>Created Angular components for patient dashboards and doctor portals with responsive layouts</li>
+                    <li>Built secure RESTful APIs integrating EHR systems with lab and pharmacy networks</li>
+                    <li>Integrated Kafka for real-time event messaging reducing data delivery latency by 20%</li>
+                    <li>Worked with MongoDB for unstructured medical records optimizing queries with indexes</li>
+                    <li>Implemented Spring Security and JWT authentication complying with HIPAA standards
